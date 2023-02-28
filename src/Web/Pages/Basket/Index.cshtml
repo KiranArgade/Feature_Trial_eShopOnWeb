@@ -8,44 +8,50 @@
         <img class="esh-catalog-title" src="~/images/main_banner_text.png" />
     </div>
 </section>
-
 <div class="container">
-
     @if (Model.BasketModel.Items.Any())
     {
         <form method="post">
-            <article class="esh-basket-titles row">
-                <br />
-                <section class="esh-basket-title col-xs-3">Product</section>
-                <section class="esh-basket-title col-xs-3 hidden-lg-down"></section>
-                <section class="esh-basket-title col-xs-2">Price</section>
-                <section class="esh-basket-title col-xs-2">Quantity</section>
-                <section class="esh-basket-title col-xs-2">Cost</section>
-            </article>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Cost</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model.BasketModel.Items.Count; i++)
+                    {
+                        var item = Model.BasketModel.Items[i];
+                        <tr>
+                            <td>
+                                <section class="esh-basket-item esh-basket-item--middle col-lg-3 hidden-lg-down">
+                                    <img class="esh-basket-image" src="@item.PictureUrl" />
+                                </section>
+                                <section class="esh-basket-item esh-basket-item--middle col-xs-3">@item.ProductName</section>
+                            </td>
+                            <td>
+                                <section class="esh-basket-item esh-basket-item--middle col-xs-2">$
+                                    @item.UnitPrice.ToString("N2")</section>
+                            </td>
+                            <td>
+                                <section class="esh-basket-item esh-basket-item--middle col-xs-2">
+                                    <input type="hidden" name="@("Items[" + i + "].Id")" value="@item.Id" />
+                                    <input type="number" class="esh-basket-input" min="0" name="@("Items[" + i + "].Quantity")"
+                                        value="@item.Quantity" />
+                                </section>
+                            </td>
+                            <td>
+                                <section class="esh-basket-item esh-basket-item--middle esh-basket-item--mark col-xs-2">$
+                                    @Math.Round(item.Quantity * item.UnitPrice, 2).ToString("N2")</section>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
             <div class="esh-catalog-items row">
-                <div asp-validation-summary="All" class="text-danger"></div>
-                @for (int i = 0; i < Model.BasketModel.Items.Count; i++)
-                {
-                    var item = Model.BasketModel.Items[i];
-                    <article class="esh-basket-items row">
-                        <div>
-                            <section class="esh-basket-item esh-basket-item--middle col-lg-3 hidden-lg-down">
-                                <img class="esh-basket-image" src="@item.PictureUrl" />
-                            </section>
-                            <section class="esh-basket-item esh-basket-item--middle col-xs-3">@item.ProductName</section>
-                            <section class="esh-basket-item esh-basket-item--middle col-xs-2">$ @item.UnitPrice.ToString("N2")</section>
-                            <section class="esh-basket-item esh-basket-item--middle col-xs-2">
-                                <input type="hidden" name="@("Items[" + i + "].Id")" value="@item.Id" />
-                                <input type="number" class="esh-basket-input" min="0" name="@("Items[" + i + "].Quantity")" value="@item.Quantity" />
-                            </section>
-                            <section class="esh-basket-item esh-basket-item--middle esh-basket-item--mark col-xs-2">$ @Math.Round(item.Quantity * item.UnitPrice, 2).ToString("N2")</section>
-                        </div>
-                        <div class="row">
-
-                        </div>
-                    </article>
-                }
-
                 <div class="container">
                     <article class="esh-basket-titles esh-basket-titles--clean row">
                         <section class="esh-basket-title col-xs-10"></section>
@@ -54,7 +60,8 @@
 
                     <article class="esh-basket-items row">
                         <section class="esh-basket-item col-xs-10"></section>
-                        <section class="esh-basket-item esh-basket-item--mark col-xs-2">$ @Model.BasketModel.Total().ToString("N2")</section>
+                        <section class="esh-basket-item esh-basket-item--mark col-xs-2">$
+                            @Model.BasketModel.Total().ToString("N2")</section>
                     </article>
 
                     <article class="esh-basket-items row">
@@ -68,7 +75,7 @@
                     <section class="esh-basket-item col-xs-push-7 col-xs-4">
 
                         <button class="btn esh-basket-checkout" name="updatebutton" value="" type="submit"
-                                asp-page-handler="Update">
+                        asp-page-handler="Update">
                             [ Update ]
                         </button>
                         <a asp-page="./Checkout" class="btn esh-basket-checkout">[ Checkout ]</a>

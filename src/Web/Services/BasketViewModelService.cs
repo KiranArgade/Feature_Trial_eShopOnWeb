@@ -13,16 +13,19 @@ public class BasketViewModelService : IBasketViewModelService
     private readonly IUriComposer _uriComposer;
     private readonly IBasketQueryService _basketQueryService;
     private readonly IRepository<CatalogItem> _itemRepository;
+    private readonly IProductRecommendationService _productRecommendationService;
 
     public BasketViewModelService(IRepository<Basket> basketRepository,
         IRepository<CatalogItem> itemRepository,
         IUriComposer uriComposer,
-        IBasketQueryService basketQueryService)
+        IBasketQueryService basketQueryService,
+        IProductRecommendationService productRecommendationService)
     {
         _basketRepository = basketRepository;
         _uriComposer = uriComposer;
         _basketQueryService = basketQueryService;
         _itemRepository = itemRepository;
+         _productRecommendationService = productRecommendationService;
     }
 
     public async Task<BasketViewModel> GetOrCreateBasketForUser(string userName)
@@ -35,6 +38,21 @@ public class BasketViewModelService : IBasketViewModelService
             return await CreateBasketForUser(userName);
         }
         var viewModel = await Map(basket);
+
+        var recommendedItems = await _productRecommendationService.GetRecommendationAsync(basket.Id);
+
+        foreach(var recommendedItem in recommendedItems){
+            var basketItemViewModel = new BasketItemViewModel
+            {
+                Id = recommendedItem.Id,
+                UnitPrice = recommendedItem.Price,
+                CatalogItemId = recommendedItem.Id,
+                PictureUrl = _uriComposer.ComposePicUri(recommendedItem.PictureUri),
+                ProductName = recommendedItem.Name 
+            };
+            viewModel.RecommendedItems.Add(basketItemViewModel);
+        }
+
         return viewModel;
     }
 

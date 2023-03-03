@@ -9,6 +9,7 @@
     </div>
 </section>
 <div class="container">
+    <br>
     @if (Model.BasketModel.Items.Any())
     {
         <form method="post">
@@ -83,13 +84,35 @@
                 </div>
             </div>
         </form>
+
+        if (Model.BasketModel.RecommendedItems.Any())
+        {
+            <br>
+            <h4 class="esh-basket-title row">
+                Recommonded for you
+            </h4>
+            <div class="esh-basket-items row">
+                @for (int i = 0; i < Model.BasketModel.RecommendedItems.Count; i++)
+                {
+                    var recommendedItem = Model.BasketModel.RecommendedItems[i];
+                    <div class="esh-basket-item col-md-2">
+                        <img class="esh-basket-thumbnail" src="@recommendedItem.PictureUrl" />
+                        <div class="esh-basket-name">
+                            <span>@recommendedItem.ProductName</span>
+                        </div>
+                        <div class="esh-basket-price">
+                            <span>$ @recommendedItem.UnitPrice.ToString("N2")</span>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
     }
     else
     {
-        <h3 class="esh-catalog-items row">
+        <h3 class="esh-basket-items row">
             Basket is empty.
         </h3>
-
         <section class="esh-basket-item">
             <a asp-page="/Index" class="btn esh-basket-checkout text-white">[ Continue Shopping ]</a>
         </section>

@@ -47,7 +47,8 @@ public class CreateCatalogItemEndpoint : IEndpoint<IResult, CreateCatalogItemReq
             throw new DuplicateException($"A catalogItem with name {request.Name} already exists");
         }
 
-        var newItem = new CatalogItem(request.CatalogTypeId, request.CatalogBrandId, request.Description, request.Name, request.Price, request.PictureUri);
+        var newItem = new CatalogItem(request.CatalogTypeId, 
+        request.CatalogBrandId, request.Description, request.Name, request.Price, request.Discount, request.PictureUri);
         newItem = await itemRepository.AddAsync(newItem);
 
         if (newItem.Id != 0)
@@ -68,7 +69,8 @@ public class CreateCatalogItemEndpoint : IEndpoint<IResult, CreateCatalogItemReq
             Description = newItem.Description,
             Name = newItem.Name,
             PictureUri = _uriComposer.ComposePicUri(newItem.PictureUri),
-            Price = newItem.Price
+            Price = newItem.Price,
+            Discount = newItem.Discount
         };
         response.CatalogItem = dto;
         return Results.Created($"api/catalog-items/{dto.Id}", response);

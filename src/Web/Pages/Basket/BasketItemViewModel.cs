@@ -8,6 +8,7 @@ public class BasketItemViewModel
     public int CatalogItemId { get; set; }
     public string? ProductName { get; set; }
     public decimal UnitPrice { get; set; }
+    public int Discount { get; set; }
     public decimal OldUnitPrice { get; set; }
 
     [Range(0, int.MaxValue, ErrorMessage = "Quantity must be bigger than 0")]

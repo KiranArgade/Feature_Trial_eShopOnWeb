@@ -6,14 +6,16 @@ public class BasketItem : BaseEntity
 {
 
     public decimal UnitPrice { get; private set; }
+    public int Discount { get; set; }
     public int Quantity { get; private set; }
     public int CatalogItemId { get; private set; }
     public int BasketId { get; private set; }
 
-    public BasketItem(int catalogItemId, int quantity, decimal unitPrice)
+    public BasketItem(int catalogItemId, int quantity, decimal unitPrice, int discount)
     {
         CatalogItemId = catalogItemId;
         UnitPrice = unitPrice;
+        Discount = discount;
         SetQuantity(quantity);
     }
 

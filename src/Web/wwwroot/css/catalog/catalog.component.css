@@ -113,3 +113,10 @@
   text-align: center; }
   .esh-catalog-price::before {
     content: '$'; }
+
+.esh-catalog-discount {
+  font-size: 20px;
+  font-weight: 450;
+  text-align: center; }
+  .esh-catalog-discount::before {
+    content: '$'; }

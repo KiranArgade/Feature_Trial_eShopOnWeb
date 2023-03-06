@@ -19,4 +19,5 @@ public class UpdateCatalogItemRequest : BaseRequest
     public string PictureName { get; set; }
     [Range(0.01, 10000)]
     public decimal Price { get; set; }
+    public int Discount { get; set; }
 }

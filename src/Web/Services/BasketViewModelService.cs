@@ -81,6 +81,7 @@ public class BasketViewModelService : IBasketViewModelService
             {
                 Id = basketItem.Id,
                 UnitPrice = basketItem.UnitPrice,
+                Discount = catalogItem.Discount,
                 Quantity = basketItem.Quantity,
                 CatalogItemId = basketItem.CatalogItemId,
                 PictureUrl = _uriComposer.ComposePicUri(catalogItem.PictureUri),

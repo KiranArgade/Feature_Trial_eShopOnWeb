@@ -10,6 +10,19 @@ public class BasketViewModel
 
     public decimal Total()
     {
-        return Math.Round(Items.Sum(x => x.UnitPrice * x.Quantity), 2);
+        decimal total = 0m;
+        foreach (var item in Items)
+        {
+            if (item.Discount > 0)
+            {
+                total += ((item.UnitPrice * Convert.ToDecimal(item.Discount)) / 100m) * item.Quantity;
+            }
+            else
+            {
+                total += item.UnitPrice * item.Quantity;
+            }
+        }
+
+        return Math.Round(total, 2);
     }
 }

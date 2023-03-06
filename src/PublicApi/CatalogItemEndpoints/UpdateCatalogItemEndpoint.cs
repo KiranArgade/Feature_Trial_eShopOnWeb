@@ -40,7 +40,7 @@ public class UpdateCatalogItemEndpoint : IEndpoint<IResult, UpdateCatalogItemReq
 
         var existingItem = await itemRepository.GetByIdAsync(request.Id);
 
-        CatalogItem.CatalogItemDetails details = new(request.Name, request.Description, request.Price);
+        CatalogItem.CatalogItemDetails details = new(request.Name, request.Description, request.Price,request.Discount);
         existingItem.UpdateDetails(details);
         existingItem.UpdateBrand(request.CatalogBrandId);
         existingItem.UpdateType(request.CatalogTypeId);
@@ -55,7 +55,8 @@ public class UpdateCatalogItemEndpoint : IEndpoint<IResult, UpdateCatalogItemReq
             Description = existingItem.Description,
             Name = existingItem.Name,
             PictureUri = _uriComposer.ComposePicUri(existingItem.PictureUri),
-            Price = existingItem.Price
+            Price = existingItem.Price,
+            Discount = existingItem.Discount
         };
         response.CatalogItem = dto;
         return Results.Ok(response);

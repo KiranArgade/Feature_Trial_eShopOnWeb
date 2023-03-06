@@ -9,8 +9,18 @@
     <div class="esh-catalog-price">
         <span>@Model.Price.ToString("N2")</span>
     </div>
+    @if (Model.Discount > 0 && Model.Discount <= 100)
+    {
+        decimal discountAmout = (Model.Price * Convert.ToDecimal(Model.Discount)) / Convert.ToDecimal(100.0);
+        decimal priceAfterDiscount = Model.Price - discountAmout;
+
+        <div class="esh-catalog-discount">
+            <span>@priceAfterDiscount.ToString("N2") After @Model.Discount% Discount</span>
+        </div>
+    }
     <input type="hidden" asp-for="@Model.Id" name="id" />
     <input type="hidden" asp-for="@Model.Name" name="name" />
     <input type="hidden" asp-for="@Model.PictureUri" name="pictureUri" />
     <input type="hidden" asp-for="@Model.Price" name="price" />
+    <input type="hidden" asp-for="@Model.Discount" name="discount" />
 </form>

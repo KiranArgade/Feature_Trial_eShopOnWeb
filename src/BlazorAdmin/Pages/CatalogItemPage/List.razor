@@ -30,6 +30,7 @@ else
                 <th>Name</th>
                 <th>@nameof(CatalogItem.Description)</th>
                 <th>@nameof(CatalogItem.Price)</th>
+                <th>@nameof(CatalogItem.Discount) %</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -46,6 +47,7 @@ else
                     <td>@item.Name</td>
                     <td>@item.Description</td>
                     <td>@item.Price</td>
+                    <td>@item.Discount</td>
                     <td>
                         <button @onclick="@(() => EditClick(item.Id))" @onclick:stopPropagation="true" class="btn btn-primary">
                             Edit

@@ -28,6 +28,11 @@ public class CatalogItem
     [DataType(DataType.Currency)]
     public decimal Price { get; set; }
 
+    //[RegularExpression(@"^\d+(\.\d{0,2})*$", ErrorMessage = "The field Price must be a positive number with maximum two decimals.")]
+    [Range(0, 80)]
+    [DataType(DataType.Text)]
+    public int Discount { get; set; }
+
     public string PictureUri { get; set; }
     public string PictureBase64 { get; set; }
     public string PictureName { get; set; }
